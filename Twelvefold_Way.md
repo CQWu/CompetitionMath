@@ -35,10 +35,41 @@ Let’s explore some base cases and properties:
 
 Now, consider a nontrivial example: `S(3, 2)`. How many ways can we distribute 3 **distinct** balls into 2 **identical** boxes with at least one ball per box?
 
-Let’s use a recursive approach:
+Let’s use a recursive approach. we can consider how to place the **last ball** into the existing groups/boxes formed by the first $n - 1$ balls. This leads to two distinct cases:
 
-- Case 1: Place the last ball into an existing group. There are `2` groups it can go into, so the count is `2 * S(2, 2)`.
-- Case 2: Place the last ball into a new group by itself. That corresponds to `S(2, 1)`.
+### Case 1: Placing the last ball into an existing non-empty box
+
+Suppose we have already placed the first 2 balls (or $n - 1$ balls in the general case) into 2 boxes (or $k$ boxes), and each box already contains at least one ball—i.e., the **surjective condition** is satisfied.
+
+Now we place the last ball (the 3rd ball, or the $n^th$ ball in general) into one of these existing non-empty boxes. Since there are $k$ such boxes to choose from, the number of ways to complete the grouping in this case is:
+
+$$
+k \cdot S(n - 1, k)
+$$
+
+In our specific example with $n = 3$ and $k = 2$, there are 2 existing boxes, so the contribution from this case is:
+
+$$
+2 \cdot S(2, 2)
+$$
+
+### Case 2: Placing the last ball into a new (previously empty) box
+
+In this scenario, the first 2 balls (or $n - 1$ balls in the general case) were placed into only 1 of the 2 boxes (or into $k - 1$ of the $k$ boxes), leaving exactly **one box empty**.
+
+To satisfy the **surjective condition** (i.e., no empty boxes allowed), the last ball **must** go into the remaining empty box to ensure all $k$ boxes are non-empty.
+
+The number of such configurations is:
+
+$$
+S(n - 1, k - 1)
+$$
+
+In our specific example with $n = 3$ and $k = 2$, the first 2 balls occupy only 1 box, and the 3rd ball must go into the second box. So the contribution from this case is:
+
+$$
+S(2, 1)
+$$
 
 So we get:
 
@@ -195,7 +226,7 @@ Each cell in this grid represents a unique counting scenario, and we summarize t
 
 |                        | No Restrictions                        | Injective (≤1 per box)               | Surjective (≥1 per box)                        |
 |------------------------|----------------------------------------|-------------------------------------|------------------------------------------------|
-| Distinct balls → Distinct boxes | $k^n$                                | `P(k, n) = k! / (k - n)!` (if `n ≤ k`) | `k! * S(n, k)`                                 |
+| Distinct balls → Distinct boxes | $k^n$                                | $P(k, n) = k! / (k - n)!$ (if `n ≤ k`) | `k! * S(n, k)`                                 |
 | Distinct balls → Identical boxes | Sum over partitions with distinct parts: `S(n, 1) + ... + S(n, k)` | `1` if `n ≤ k`, else `0`               | `S(n, k)`                                     |
 | Identical balls → Distinct boxes | `C(n + k - 1, k - 1)` (stars and bars) | `C(k, n)` (if `n ≤ k`)                 | `C(n - 1, k - 1)`                             |
 | Identical balls → Identical boxes | Number of integer partitions of `n` into ≤`k` parts | `1` if `n ≤ k`, else `0`               | Number of integer partitions of `n` into exactly `k` parts |
