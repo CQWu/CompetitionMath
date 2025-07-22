@@ -97,8 +97,8 @@ S(n, k) = k * S(n-1, k) + S(n-1, k-1)
 
 This formula reflects two cases:
 
-1. Assigning the `n`th ball to one of the existing `k` non-empty boxes, contributing `k * S(n-1, k)`.
-2. Placing the `n`th ball into a new, separate box, contributing `S(n-1, k-1)`.
+1. Assigning the $n^th$ ball to one of the existing `k` non-empty boxes, contributing `k * S(n-1, k)`.
+2. Placing the $n^th$ ball into a new, separate box, contributing `S(n-1, k-1)`.
 
 This recurrence makes it easy to construct a **Stirling number table**, much like Pascal’s triangle for combinations.
 
